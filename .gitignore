@@ -6,3 +6,4 @@ out
 *.jks
 *.crt
 secret.kt
+.DS_Store
