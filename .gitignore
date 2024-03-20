@@ -5,4 +5,4 @@ out
 *.pem
 *.jks
 *.crt
-/src/main/kotlin/com/Tmax/refactorCodeGpt/settings/SettingsState
+/src/main/kotlin/com/Tmax/refactorCodeGpt/settings/SettingsState.kt
