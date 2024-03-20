@@ -1,0 +1,35 @@
+<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
+<idea-plugin>
+    <id>Tmax.refactorCodeGpt</id>
+    <name>refactorCodeGpt</name>
+    <vendor
+        url="https://github.com/fbwogur121/Internship_TamxSoft"
+        email="fbwogur121@naver.com">
+        fbwogur121
+    </vendor>
+
+    <description>
+        <![CDATA[**refactor selected code using ChatGPT**.
+        ]]>
+    </description>
+
+    <depends>
+        com.intellij.modules.platform
+    </depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationConfigurable instance="com.Tmax.refactorCodeGpt.settings.SettingsConfig" />
+        <!-- ... other extensions ... -->
+    </extensions>
+
+    <actions>
+        <action id="RefactorGptAction"
+                class="com.Tmax.refactorCodeGpt.action.RefactorGptAction"
+                text="Refactor Code with GPT"
+                description="Refactor selected code using ChatGPT">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt R" replace-all="true"/>
+        </action>
+    </actions>
+
+</idea-plugin>

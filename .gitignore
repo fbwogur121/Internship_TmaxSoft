@@ -1,0 +1,8 @@
+.gradle
+.idea
+build
+out
+*.pem
+*.jks
+*.crt
+src/main/kotlin/com/Tmax/refactorCodeGpt/settings/SettingsState
