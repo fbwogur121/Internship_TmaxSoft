@@ -5,4 +5,5 @@ out
 *.pem
 *.jks
 *.crt
-main/kotlin/com/Tmax/refactorCodeGpt/settings/SettingsState.kt
+secret.kt
+.DS_Store
