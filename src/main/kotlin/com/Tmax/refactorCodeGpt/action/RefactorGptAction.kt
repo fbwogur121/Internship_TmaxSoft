@@ -16,7 +16,7 @@ class RefactorGptAction : AnAction() {
     private var warningIcon: Icon? = null
 
     init {
-        updateWarningIcon()
+        updateWarningIcon() //warningIcon 초기화
     }
 
     override fun actionPerformed(event: AnActionEvent) {
