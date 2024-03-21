@@ -12,14 +12,16 @@ import java.util.concurrent.TimeUnit
 
 object ChatGptApiClient {
 
-    private const val BASE_URL = "https://api.openai.com/v1/"
+    private const val BASE_URL = "https://api.openai.com/"
 
-    fun getClient(): Retrofit =
-        Retrofit.Builder()
+    fun getClient(): Retrofit {
+        val build = Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(getGson()))
             .client(getOkHttpClient())
             .build()
+        return build
+    }
 
     private fun getOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()

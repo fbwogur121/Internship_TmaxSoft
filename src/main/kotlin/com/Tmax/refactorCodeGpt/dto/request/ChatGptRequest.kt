@@ -1,7 +1,7 @@
 package com.Tmax.refactorCodeGpt.dto.request
 
 data class ChatGptRequest(
-    val model: String = "gpt-3.5-turbo",
+    val model: String = "text-davinci-003",
     val prompt: String,
     val maxTokens: Int = 500,
     val temperature: Int = 0
