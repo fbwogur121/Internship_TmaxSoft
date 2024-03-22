@@ -14,14 +14,12 @@ object ChatGptApiClient {
 
     private const val BASE_URL = "https://api.openai.com/"
 
-    fun getClient(): Retrofit {
-        val build = Retrofit.Builder()
+    fun getClient(): Retrofit =
+        Retrofit.Builder()
             .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create(getGson()))
             .client(getOkHttpClient())
             .build()
-        return build
-    }
 
     private fun getOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()

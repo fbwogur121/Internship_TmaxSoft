@@ -1,7 +1,7 @@
 package com.Tmax.refactorCodeGpt.dto.request
 
 data class ChatGptRequest(
-    val model: String = "text-davinci-003",
+    val model: String = "gpt-3.5-turbo",
     val prompt: String,
     val maxTokens: Int = 500,
     val temperature: Int = 0
@@ -23,6 +23,6 @@ data class ChatGptRequest(
                 ```
 
                 Respond start with the line 'Code:'
-            """.trimIndent()
+            """.trimIndent() //문자열 앞,뒤의 공백 제거
     }
 }
