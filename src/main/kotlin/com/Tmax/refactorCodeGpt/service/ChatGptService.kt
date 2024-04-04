@@ -48,31 +48,39 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import org.json.JSONObject
 import java.net.SocketTimeoutException
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 
 class ChatGptService {
 
-    private val client = OkHttpClient()
+    //private val client = OkHttpClient()
+    private val client = OkHttpClient.Builder()
+        .connectTimeout(10, TimeUnit.MINUTES)  // 연결 타임아웃을 10분으로 설정
+        .readTimeout(10, TimeUnit.MINUTES)  // 읽기 타임아웃을 10분으로 설정
+        .writeTimeout(10, TimeUnit.MINUTES)  // 쓰기 타임아웃을 10분으로 설정
+        .build()
 
     fun refactorCode(fileExtension: String, code: String): Refactored =
         runCatching {
             val json = JSONObject()
             json.put("model", "codellama/CodeLlama-7b-Python-hf")
-            json.put("prompt", ChatGptRequest.makePrompt(fileExtension, code).content)
+            json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
             json.put("pad_token_id", 0)
             json.put("eos_token_id", 1)
             json.put("max_length", 500)
-
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
                 .url("http://192.168.115.38:5000/generate-code")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
-
+            println("body:"+body)
+            println("request:"+request)
+            println("selected code:"+code)
             client.newCall(request).execute().use { response ->
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
                 response.body?.string()?.let { responseBody ->
+                    println(responseBody)
                     JSONObject(responseBody).getString("generated_text")
                 }
             }
