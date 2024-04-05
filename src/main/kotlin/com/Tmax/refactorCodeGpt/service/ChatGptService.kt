@@ -81,7 +81,7 @@ class ChatGptService {
 
                 response.body?.string()?.let { responseBody ->
                     println(responseBody)
-                    JSONObject(responseBody).getString("generated_text")
+                    JSONObject(responseBody).getString("generated_code")
                 }
             }
         }.fold(
