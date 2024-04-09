@@ -62,14 +62,15 @@ class ChatGptService {
     fun refactorCode(fileExtension: String, code: String): Refactored =
         runCatching {
             val json = JSONObject()
-            json.put("model", "codellama/CodeLlama-7b-Python-hf")
+            json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
+            json.put("load_in_4bit", "True")
             json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
             json.put("pad_token_id", 0)
             json.put("eos_token_id", 1)
             json.put("max_length", 500)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
-                .url("http://192.168.115.38:5000/generate-code")
+                .url("http://192.168.115.38:5000/generate-text")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
@@ -81,7 +82,7 @@ class ChatGptService {
 
                 response.body?.string()?.let { responseBody ->
                     println(responseBody)
-                    JSONObject(responseBody).getString("generated_code")
+                    JSONObject(responseBody).getString("generated_text")
                 }
             }
         }.fold(

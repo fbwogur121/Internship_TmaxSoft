@@ -10,6 +10,9 @@ data class ChatGptRequest(
         private fun makePrompt(fileExtension: String, code: String): Message =
             Message(role = "user", content = """
                 Refactor the following code and describe your changes in Korean only in comments within the code. Refactoring results in code that improves performance.
+                Refactor the following code for better readability and maintainability.
+                However, you must restructure the code without changing the results.
+                Don't say ANY explain. Just response the code strictly.
                 This code's file extension: $fileExtension
                 Here is the code:
                 ```
