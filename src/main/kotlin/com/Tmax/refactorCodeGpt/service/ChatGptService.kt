@@ -27,6 +27,23 @@ class ChatGptService(
             }
         )
 
+    //chatbot
+    fun chatWithGpt(userInput: String): String {
+        val chatGptRequest = ChatGptRequest.chat(userInput)
+        val response = chatGptApi.refactorCode(chatGptRequest).execute()
+
+        if (response.isSuccessful) {
+            return response.body()?.toRefactored()?.code ?: "No response from GPT"
+        } else {
+            val errorBody = response.errorBody()
+            val errorMessage = if (errorBody != null) {
+                errorBody.string()
+            } else {
+                "Unknown error"
+            }
+            throw ChatGptFetchFailureException("Failed to chat with GPT: $errorMessage")
+        }
+    }
     private fun onRefactorSuccess(response: Response<ChatGptResponse>): Refactored =
         takeUnless { response.code() == 401 }
             ?.let { response.body()?.toRefactored() }

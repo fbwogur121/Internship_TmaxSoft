@@ -19,6 +19,11 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <applicationConfigurable instance="com.Tmax.refactorCodeGpt.settings.SettingsConfig" />
+        <toolWindow id="ChatGptToolWindow"
+                    anchor="right"
+                    factoryClass="com.Tmax.refactorCodeGpt.ui.ChatGptToolWindowFactory"
+                    canCloseContents="true"
+                    secondary="false"/>
         <!-- ... other extensions ... -->
     </extensions>
 
@@ -29,6 +34,13 @@
                 description="Refactor selected code using ChatGPT">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt R" replace-all="true"/>
+        </action>
+        <action id="ChatGptAction"
+                class="com.Tmax.refactorCodeGpt.action.ChatGptAction"
+                text="ChatGPT chatbot"
+                description="Show or hide the ChatGPT sidebar">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt C" replace-all="true"/>
         </action>
     </actions>
 
