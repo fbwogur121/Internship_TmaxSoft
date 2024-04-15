@@ -67,7 +67,7 @@ class ChatGptService {
             json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
             json.put("pad_token_id", 0)
             json.put("eos_token_id", 1)
-            json.put("max_length", 500)
+            json.put("max_length", 1)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
                 .url("http://192.168.115.38:5000/generate-text")
