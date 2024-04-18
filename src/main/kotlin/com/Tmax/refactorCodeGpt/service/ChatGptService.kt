@@ -70,7 +70,7 @@ class ChatGptService {
             json.put("max_length", 1)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
-                .url("http://192.168.115.38:5000/generate-text")
+                .url("http://192.168.115.38:5003/generate-text")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
