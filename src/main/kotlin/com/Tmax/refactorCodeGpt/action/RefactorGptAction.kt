@@ -22,38 +22,38 @@ class RefactorGptAction : AnAction() {
         updateWarningIcon()
     }
 
-//    override fun actionPerformed(event: AnActionEvent) {
-//        val project = event.project ?: return
-//        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
-//        val selectedCode = editor.selectionModel.selectedText
-//
-//        if (selectedCode.isNullOrBlank()) {
-//            showSelectDialog(project)
-//            return
-//        }
-//
-//        if (settings.isApiKeyNotExists()) {
-//            showApiKeyWarning(project)
-//            return
-//        }
-//
-//        val dialog = RefactorGptDialog(editor, project, selectedCode)
-//
-//        dialog.show()
-//    }
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project ?: return
+        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
+        val selectedCode = editor.selectionModel.selectedText
 
-        val toolWindowManager = ToolWindowManager.getInstance(project)
-        val toolWindow = toolWindowManager.getToolWindow("RefactorGptToolWindow")
-
-        if (toolWindow != null) {
-            toolWindow.show { true }
-        } else {
-            // Create tool window if not exists
-            toolWindowManager.registerToolWindow("RefactorGptToolWindow", false, ToolWindowAnchor.RIGHT)
+        if (selectedCode.isNullOrBlank()) {
+            showSelectDialog(project)
+            return
         }
+
+        if (settings.isApiKeyNotExists()) {
+            showApiKeyWarning(project)
+            return
+        }
+
+        val dialog = RefactorGptDialog(editor, project, selectedCode)
+
+        dialog.show()
     }
+//    override fun actionPerformed(event: AnActionEvent) {
+//        val project = event.project ?: return
+//
+//        val toolWindowManager = ToolWindowManager.getInstance(project)
+//        val toolWindow = toolWindowManager.getToolWindow("RefactorGptToolWindow")
+//
+//        if (toolWindow != null) {
+//            toolWindow.show { true }
+//        } else {
+//            // Create tool window if not exists
+//            toolWindowManager.registerToolWindow("RefactorGptToolWindow", false, ToolWindowAnchor.RIGHT)
+//        }
+//    }
 
     override fun update(event: AnActionEvent) {
         super.update(event)
