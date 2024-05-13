@@ -30,7 +30,7 @@
     <actions>
         <action id="RefactorGptAction"
                 class="com.Tmax.refactorCodeGpt.action.RefactorGptAction"
-                text="Refactor Code with GPT"
+                text="Refactor Code with LLM"
                 description="Refactor selected code using ChatGPT">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt R" replace-all="true"/>
