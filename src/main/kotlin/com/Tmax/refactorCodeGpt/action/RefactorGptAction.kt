@@ -9,6 +9,9 @@ import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.ui.Messages
 import javax.swing.Icon
+import com.intellij.openapi.wm.ToolWindowAnchor
+import com.intellij.openapi.wm.ToolWindowManager
+
 
 class RefactorGptAction : AnAction() {
 
@@ -19,24 +22,37 @@ class RefactorGptAction : AnAction() {
         updateWarningIcon()
     }
 
+//    override fun actionPerformed(event: AnActionEvent) {
+//        val project = event.project ?: return
+//        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
+//        val selectedCode = editor.selectionModel.selectedText
+//
+//        if (selectedCode.isNullOrBlank()) {
+//            showSelectDialog(project)
+//            return
+//        }
+//
+//        if (settings.isApiKeyNotExists()) {
+//            showApiKeyWarning(project)
+//            return
+//        }
+//
+//        val dialog = RefactorGptDialog(editor, project, selectedCode)
+//
+//        dialog.show()
+//    }
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project ?: return
-        val editor = event.getRequiredData(CommonDataKeys.EDITOR)
-        val selectedCode = editor.selectionModel.selectedText
 
-        if (selectedCode.isNullOrBlank()) {
-            showSelectDialog(project)
-            return
+        val toolWindowManager = ToolWindowManager.getInstance(project)
+        val toolWindow = toolWindowManager.getToolWindow("RefactorGptToolWindow")
+
+        if (toolWindow != null) {
+            toolWindow.show { true }
+        } else {
+            // Create tool window if not exists
+            toolWindowManager.registerToolWindow("RefactorGptToolWindow", false, ToolWindowAnchor.RIGHT)
         }
-
-        if (settings.isApiKeyNotExists()) {
-            showApiKeyWarning(project)
-            return
-        }
-
-        val dialog = RefactorGptDialog(editor, project, selectedCode)
-
-        dialog.show()
     }
 
     override fun update(event: AnActionEvent) {
