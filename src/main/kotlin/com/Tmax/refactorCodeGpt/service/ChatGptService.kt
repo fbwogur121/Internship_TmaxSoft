@@ -63,14 +63,11 @@ class ChatGptService {
         runCatching {
             val json = JSONObject()
             json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
-            json.put("load_in_4bit", "True")
             json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
-            json.put("pad_token_id", 0)
-            json.put("eos_token_id", 1)
-            json.put("max_length", 1)
+            json.put("max_new_token", 100)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
-                .url("http://192.168.115.38:5003/generate-text")
+                .url("http://192.168.115.38:5009/generate")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
@@ -81,9 +78,18 @@ class ChatGptService {
                 if (!response.isSuccessful) throw IOException("Unexpected code $response")
 
                 response.body?.string()?.let { responseBody ->
-                    println(responseBody)
-                    JSONObject(responseBody).getString("generated_text")
-                }
+                    val jsonResponse = JSONObject(responseBody)
+                    val isSuccess = jsonResponse.getBoolean("isSuccess")
+                    if (isSuccess) {
+                        // 성공 응답 처리
+                        val resultObject = jsonResponse.getJSONObject("result")
+                        val outputText = resultObject.getString("output_text") // 예시로 'output_text'를 추출한다고 가정
+                        outputText
+                    } else {
+                        // 실패 응답 처리
+                        throw ChatGptFetchFailureException("Server returned failure response: ${jsonResponse.getString("result")}")
+                    }
+                } ?: throw IOException("Response body is null")
             }
         }.fold(
             onSuccess = { refactoredCode -> Refactored(refactoredCode ?: "") },
