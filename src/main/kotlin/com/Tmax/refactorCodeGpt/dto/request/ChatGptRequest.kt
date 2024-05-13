@@ -7,10 +7,29 @@ data class ChatGptRequest(
     companion object {
         fun of(fileExtension: String, code: String): ChatGptRequest =
             ChatGptRequest(messages = listOf(makePrompt(fileExtension, code)))
+
+        fun chat(text: String): ChatGptRequest =
+            ChatGptRequest(messages = listOf(makeChat(text)))
+
+
         private fun makePrompt(fileExtension: String, code: String): Message =
-            Message(role = "code refactoring teacher", content = """This code's file extension: $fileExtension
+            Message(role = "user", content = """
+                Refactor the following code and describe your changes in Korean only in comments within the code. Refactoring results in code that improves performance.
+                This code's file extension: $fileExtension
+                Here is the code:
+                ```
                 $code
+                ```
+                Respond start with the line 'Code:'
             """.trimIndent())
+
+        private fun makeChat(text: String): Message =
+            Message(role = "user", content = """
+                Your role is coding teacher.
+                Here is my question: $text
+                please talk to me kindly.
+            """.trimIndent())
+
     }
 }
 

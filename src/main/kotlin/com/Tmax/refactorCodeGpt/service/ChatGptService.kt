@@ -35,6 +35,7 @@
 
 package com.Tmax.refactorCodeGpt.service
 
+import com.Tmax.refactorCodeGpt.api.ChatGptApi
 import com.Tmax.refactorCodeGpt.dto.Refactored
 import com.Tmax.refactorCodeGpt.dto.request.ChatGptRequest
 import com.Tmax.refactorCodeGpt.dto.response.ChatGptResponse
@@ -49,6 +50,7 @@ import org.json.JSONObject
 import java.net.SocketTimeoutException
 import java.io.IOException
 import java.util.concurrent.TimeUnit
+import retrofit2.Response
 
 class ChatGptService {
 
@@ -58,6 +60,7 @@ class ChatGptService {
         .readTimeout(10, TimeUnit.MINUTES)  // 읽기 타임아웃을 10분으로 설정
         .writeTimeout(10, TimeUnit.MINUTES)  // 쓰기 타임아웃을 10분으로 설정
         .build()
+    private val chatGptApi: ChatGptApi = ChatGptApi.create()
 
     fun refactorCode(fileExtension: String, code: String): Refactored =
         runCatching {
@@ -100,4 +103,26 @@ class ChatGptService {
                 throw ChatGptFetchFailureException(exception.message)
             }
         )
+
+    //chatbot
+    fun chatWithGpt(userInput: String): String {
+        val chatGptRequest = ChatGptRequest.chat(userInput)
+        val response = chatGptApi.refactorCode(chatGptRequest).execute()
+
+        if (response.isSuccessful) {
+            return response.body()?.toRefactored()?.code ?: "No response from GPT"
+        } else {
+            val errorBody = response.errorBody()
+            val errorMessage = if (errorBody != null) {
+                errorBody.string()
+            } else {
+                "Unknown error"
+            }
+            throw ChatGptFetchFailureException("Failed to chat with GPT: $errorMessage")
+        }
+    }
+    private fun onRefactorSuccess(response: Response<ChatGptResponse>): Refactored =
+        takeUnless { response.code() == 401 }
+            ?.let { response.body()?.toRefactored() }
+            ?: throw ChatGptAuthenticationException()
 }
