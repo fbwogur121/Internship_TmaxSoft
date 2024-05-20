@@ -47,7 +47,7 @@
                 text="generate JavaDoc comment"
                 description="Generate javadoc comments for selected code">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
-            <keyboard-shortcut keymap="$default" first-keystroke="alt W" replace-all="true"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt J" replace-all="true"/>
         </action>
     </actions>
 
