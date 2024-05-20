@@ -2,7 +2,7 @@ package com.Tmax.refactorCodeGpt.service
 
 import com.Tmax.refactorCodeGpt.api.ChatGptApi
 import com.Tmax.refactorCodeGpt.dto.Refactored
-import com.Tmax.refactorCodeGpt.dto.request.ChatGptRequest
+import com.Tmax.refactorCodeGpt.dto.request.JavaDocRequest
 import com.Tmax.refactorCodeGpt.dto.response.ChatGptResponse
 import com.Tmax.refactorCodeGpt.exception.ChatGptAuthenticationException
 import com.Tmax.refactorCodeGpt.exception.ChatGptFetchFailureException
@@ -33,7 +33,7 @@ class JavaDocService {
         runCatching {
             val json = JSONObject()
             json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
-            json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
+            json.put("prompt", JavaDocRequest.of(fileExtension, code).messages.first().content)
             json.put("max_new_token", 100)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()

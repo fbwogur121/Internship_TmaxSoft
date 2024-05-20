@@ -1,6 +1,6 @@
 package com.Tmax.refactorCodeGpt.dto.response
 
-import com.Tmax.refactorCodeGpt.dto.Message
+import com.Tmax.refactorCodeGpt.dto.Message.ChatBotMessage
 import com.Tmax.refactorCodeGpt.dto.Refactored
 
 data class ChatGptResponse(
@@ -10,7 +10,7 @@ data class ChatGptResponse(
 
     data class Choice(
         val index: Int,
-        val message: Message,
+        val message: ChatBotMessage,
         val finishReason: String
     )
 
