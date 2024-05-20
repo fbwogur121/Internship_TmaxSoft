@@ -1,6 +1,6 @@
 package com.Tmax.refactorCodeGpt.ui
 
-import com.Tmax.refactorCodeGpt.service.ChatGptService
+import com.Tmax.refactorCodeGpt.service.ChatBotService
 import com.intellij.ui.components.JBScrollPane
 import com.intellij.ui.components.JBTextArea
 import com.intellij.ui.components.JBTextField
@@ -11,7 +11,8 @@ import javax.swing.JButton
 import javax.swing.JPanel
 
 class ChatGptPanel : JPanel() {
-    private val chatGptService = ChatGptService()
+    private val chatGptService = ChatBotService()
+
     private val inputField = JBTextField()
     private val chatArea = JBTextArea()
 
@@ -22,7 +23,7 @@ class ChatGptPanel : JPanel() {
             override fun actionPerformed(e: ActionEvent?) {
                 val userInput = inputField.text
                 val chatGptResponse = chatGptService.chatWithGpt(userInput)
-                chatArea.append("\nUser: $userInput\nGPT: $chatGptResponse")
+                chatArea.append("\nUser: $userInput\n\nGPT: $chatGptResponse\n------------------------------------------")
                 inputField.text = ""
             }
         })
