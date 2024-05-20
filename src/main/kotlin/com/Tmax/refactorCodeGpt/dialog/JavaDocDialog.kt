@@ -17,7 +17,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBLoadingPanel
 import com.intellij.ui.components.JBScrollPane
 import com.Tmax.refactorCodeGpt.dto.Refactored
-import com.Tmax.refactorCodeGpt.service.RefactorGptService
+import com.Tmax.refactorCodeGpt.service.JavaDocService
 import java.awt.BorderLayout
 import javax.swing.Action
 import javax.swing.BorderFactory
@@ -27,7 +27,7 @@ import javax.swing.JPanel
 import javax.swing.JSplitPane
 import javax.swing.SwingUtilities
 
-class RefactorGptDialog(
+class JavaDocDialog(
     private val editor: Editor,
     private val project: Project,
     private val selectedCode: String
@@ -39,7 +39,7 @@ class RefactorGptDialog(
         editorFactory.createViewer(editorFactory.createDocument(selectedCode.trimIndent()), project) as EditorEx
     private val refactoredCodeEditor: EditorEx =
         editorFactory.createEditor(editorFactory.createDocument(""), project) as EditorEx
-    private val chatGptService = RefactorGptService()
+    private val javaDocService = JavaDocService()
     private val fileExtension = FileDocumentManager.getInstance().getFile(editor.document)?.extension ?: "txt"
 
     val onApply = { refactoredCode: String ->
@@ -47,7 +47,7 @@ class RefactorGptDialog(
     }
 
     init {
-        title = "RefactorGPT"
+        title = "JavaDoc"
         isResizable = true
         initEditors()
         init()
@@ -60,7 +60,7 @@ class RefactorGptDialog(
         val panel = JPanel(BorderLayout())
 
         val originalCodeLabel = JBLabel("Original code:")
-        val refactoredCodeLabel = JBLabel("Refactored code:")
+        val refactoredCodeLabel = JBLabel("JavaDoc with Original code:")
 
         originalCodeLabel.border = BorderFactory.createEmptyBorder(0, 10, 10, 0)
         refactoredCodeLabel.border = BorderFactory.createEmptyBorder(0, 10, 10, 0)
@@ -109,9 +109,9 @@ class RefactorGptDialog(
     }
 
     override fun show() {
-         Thread {
+        Thread {
             runCatching {
-                chatGptService.refactorCode(fileExtension, selectedCode)
+                javaDocService.generateJavaDoc(fileExtension, selectedCode)
             }.fold(
                 onSuccess = { refactored ->
                     SwingUtilities.invokeLater {
@@ -123,8 +123,8 @@ class RefactorGptDialog(
                     SwingUtilities.invokeLater {
                         Messages.showErrorDialog(
                             project,
-                            "Failed to refactor code: ${exception.message}",
-                            "Refactor Error"
+                            "Failed to generate JavaDoc: ${exception.message}",
+                            "Generating Error"
                         )
                         setLoading(false)
                         super.close(OK_EXIT_CODE)

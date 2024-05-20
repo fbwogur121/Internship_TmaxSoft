@@ -42,6 +42,13 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" replace-all="true"/>
         </action>
+        <action id="JavaDocAction"
+                class="com.Tmax.refactorCodeGpt.action.JavaDocAction"
+                text="generate JavaDoc comment"
+                description="Generate javadoc comments for selected code">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt W" replace-all="true"/>
+        </action>
     </actions>
 
 </idea-plugin>
