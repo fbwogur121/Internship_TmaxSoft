@@ -2,7 +2,7 @@ package com.Tmax.refactorCodeGpt.service
 
 import com.Tmax.refactorCodeGpt.api.ChatGptApi
 import com.Tmax.refactorCodeGpt.dto.Refactored
-import com.Tmax.refactorCodeGpt.dto.request.ChatGptRequest
+import com.Tmax.refactorCodeGpt.dto.request.RefactorGptRequest
 import com.Tmax.refactorCodeGpt.dto.response.ChatGptResponse
 import com.Tmax.refactorCodeGpt.exception.ChatGptAuthenticationException
 import com.Tmax.refactorCodeGpt.exception.ChatGptFetchFailureException
@@ -31,11 +31,11 @@ class RefactorGptService {
         runCatching {
             val json = JSONObject()
             json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
-            json.put("prompt", ChatGptRequest.of(fileExtension, code).messages.first().content)
-            json.put("max_new_token", 100)
+            json.put("prompt", RefactorGptRequest.of(fileExtension, code).messages.first().content)
+            json.put("max_new_token", 200)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
-                .url("http://192.168.115.38:5009/generate")
+                .url("http://192.168.115.38:5033/generate-refactorcode")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
@@ -52,7 +52,8 @@ class RefactorGptService {
                         // 성공 응답 처리
                         val resultObject = jsonResponse.getJSONObject("result")
                         val outputText = resultObject.getString("output_text") // 예시로 'output_text'를 추출한다고 가정
-                        outputText
+                        val commentedResponse = RefactorGptRequest.applyCommentToResponse(outputText)
+                        commentedResponse
                     } else {
                         // 실패 응답 처리
                         throw ChatGptFetchFailureException("Server returned failure response: ${jsonResponse.getString("result")}")

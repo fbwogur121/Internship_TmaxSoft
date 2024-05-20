@@ -2,7 +2,7 @@ package com.Tmax.refactorCodeGpt.service
 
 import com.Tmax.refactorCodeGpt.api.ChatGptApi
 import com.Tmax.refactorCodeGpt.dto.Refactored
-import com.Tmax.refactorCodeGpt.dto.request.ChatGptRequest
+import com.Tmax.refactorCodeGpt.dto.request.ChatBotRequest
 import com.Tmax.refactorCodeGpt.dto.response.ChatGptResponse
 import com.Tmax.refactorCodeGpt.exception.ChatGptAuthenticationException
 import com.Tmax.refactorCodeGpt.exception.ChatGptFetchFailureException
@@ -23,7 +23,7 @@ class ChatBotService {
 
     //chatbot
     fun chatWithGpt(userInput: String): String {
-        val chatGptRequest = ChatGptRequest.chat(userInput)
+        val chatGptRequest = ChatBotRequest.chat(userInput)
         val response = chatGptApi.refactorCode(chatGptRequest).execute()
 
         if (response.isSuccessful) {

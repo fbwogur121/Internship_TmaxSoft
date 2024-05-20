@@ -1,6 +1,6 @@
 package com.Tmax.refactorCodeGpt.api
 
-import com.Tmax.refactorCodeGpt.dto.request.ChatGptRequest
+import com.Tmax.refactorCodeGpt.dto.request.ChatBotRequest
 import com.Tmax.refactorCodeGpt.dto.response.ChatGptResponse
 import retrofit2.Call
 import retrofit2.http.Body
@@ -9,7 +9,7 @@ import retrofit2.http.POST
 fun interface ChatGptApi {
 
     @POST("v1/chat/completions")
-    fun refactorCode(@Body request: ChatGptRequest): Call<ChatGptResponse>
+    fun refactorCode(@Body request: ChatBotRequest): Call<ChatGptResponse>
 
     companion object {
 
