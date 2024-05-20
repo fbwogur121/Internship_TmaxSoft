@@ -25,7 +25,6 @@ class RefactorGptService {
         .readTimeout(10, TimeUnit.MINUTES)  // 읽기 타임아웃을 10분으로 설정
         .writeTimeout(10, TimeUnit.MINUTES)  // 쓰기 타임아웃을 10분으로 설정
         .build()
-    private val chatGptApi: ChatGptApi = ChatGptApi.create()
 
     fun refactorCode(fileExtension: String, code: String): Refactored =
         runCatching {
@@ -35,7 +34,7 @@ class RefactorGptService {
             json.put("max_new_token", 200)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
-                .url("http://192.168.115.38:5033/generate-refactorcode")
+                .url("http://192.168.115.38:5009/generate-refactorcode")
                 .post(body)
                 .addHeader("Authorization", Credentials.basic("username", "password123!@#"))
                 .build()
