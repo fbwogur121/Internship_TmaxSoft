@@ -16,6 +16,8 @@ import java.util.concurrent.TimeUnit
 import retrofit2.Response
 import java.io.IOException
 import java.net.SocketTimeoutException
+import com.Tmax.refactorCodeGpt.dto.request.RefactorGptRequest
+
 
 class JavaDocService {
 
@@ -25,8 +27,6 @@ class JavaDocService {
         .readTimeout(10, TimeUnit.MINUTES)  // 읽기 타임아웃을 10분으로 설정
         .writeTimeout(10, TimeUnit.MINUTES)  // 쓰기 타임아웃을 10분으로 설정
         .build()
-    private val chatGptApi: ChatGptApi = ChatGptApi.create()
-
 
     //javadoc
     fun generateJavaDoc(fileExtension: String, code: String): Refactored =
@@ -34,7 +34,7 @@ class JavaDocService {
             val json = JSONObject()
             json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
             json.put("prompt", JavaDocRequest.of(fileExtension, code).messages.first().content)
-            json.put("max_new_token", 100)
+            json.put("max_new_token", 300)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
                 .url("http://192.168.115.38:5009/generate-javadoc")
@@ -54,7 +54,8 @@ class JavaDocService {
                         // 성공 응답 처리
                         val resultObject = jsonResponse.getJSONObject("result")
                         val outputText = resultObject.getString("output_text") // 예시로 'output_text'를 추출한다고 가정
-                        outputText
+                        val cleanedOutput = JavaDocRequest.cleanUpResponse(outputText)
+                        cleanedOutput
                     } else {
                         // 실패 응답 처리
                         throw ChatGptFetchFailureException("Server returned failure response: ${jsonResponse.getString("result")}")
