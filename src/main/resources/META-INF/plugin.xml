@@ -18,10 +18,10 @@
     </depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <applicationConfigurable instance="com.Tmax.refactorCodeGpt.settings.SettingsConfig" />
+        <applicationConfigurable instance="com.Tmax.tmaxPlugin.settings.SettingsConfig" />
         <toolWindow id="ChatGptToolWindow"
                     anchor="right"
-                    factoryClass="com.Tmax.refactorCodeGpt.ui.ChatGptToolWindowFactory"
+                    factoryClass="com.Tmax.tmaxPlugin.dialog.chatBotDialog.ChatGptToolWindowFactory"
                     canCloseContents="true"
                     secondary="false"/>
         <!-- ... other extensions ... -->
@@ -29,18 +29,25 @@
 
     <actions>
         <action id="RefactorGptAction"
-                class="com.Tmax.refactorCodeGpt.action.RefactorGptAction"
+                class="com.Tmax.tmaxPlugin.action.RefactorGptAction"
                 text="Refactor Code with LLM"
                 description="Refactor selected code using ChatGPT">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt R" replace-all="true"/>
         </action>
         <action id="ChatGptAction"
-                class="com.Tmax.refactorCodeGpt.action.ChatGptAction"
+                class="com.Tmax.tmaxPlugin.action.ChatGptAction"
                 text="ChatGPT chatbot"
                 description="Show or hide the ChatGPT sidebar">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt C" replace-all="true"/>
+        </action>
+        <action id="JavaDocAction"
+                class="com.Tmax.tmaxPlugin.action.JavaDocAction"
+                text="generate JavaDoc comment"
+                description="Generate javadoc comments for selected code">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt J" replace-all="true"/>
         </action>
     </actions>
 
