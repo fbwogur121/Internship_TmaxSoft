@@ -39,19 +39,6 @@ class RefactorGptAction : AnAction() {
 
         dialog.show()
     }
-//    override fun actionPerformed(event: AnActionEvent) {
-//        val project = event.project ?: return
-//
-//        val toolWindowManager = ToolWindowManager.getInstance(project)
-//        val toolWindow = toolWindowManager.getToolWindow("RefactorGptToolWindow")
-//
-//        if (toolWindow != null) {
-//            toolWindow.show { true }
-//        } else {
-//            // Create tool window if not exists
-//            toolWindowManager.registerToolWindow("RefactorGptToolWindow", false, ToolWindowAnchor.RIGHT)
-//        }
-//    }
 
     override fun update(event: AnActionEvent) {
         super.update(event)
