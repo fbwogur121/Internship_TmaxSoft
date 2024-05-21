@@ -21,7 +21,7 @@
         <applicationConfigurable instance="com.Tmax.refactorCodeGpt.settings.SettingsConfig" />
         <toolWindow id="ChatGptToolWindow"
                     anchor="right"
-                    factoryClass="com.Tmax.refactorCodeGpt.ui.ChatGptToolWindowFactory"
+                    factoryClass="com.Tmax.refactorCodeGpt.dialog.chatBotDialog.ChatGptToolWindowFactory"
                     canCloseContents="true"
                     secondary="false"/>
         <!-- ... other extensions ... -->

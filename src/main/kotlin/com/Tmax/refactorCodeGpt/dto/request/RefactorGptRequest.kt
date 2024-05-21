@@ -1,5 +1,5 @@
 package com.Tmax.refactorCodeGpt.dto.request
-import com.Tmax.refactorCodeGpt.dto.Message.RefactorGptMessage
+import com.Tmax.refactorCodeGpt.dto.message.RefactorGptMessage
 
 data class RefactorGptRequest(
     val messages: List<RefactorGptMessage>,
@@ -9,13 +9,12 @@ data class RefactorGptRequest(
             RefactorGptRequest(messages = listOf(makePrompt(fileExtension, code)))
 
         fun applyCommentToResponse(response: String): String {
-            // 예시 응답에서 "refactored code" 부분을 식별하는 패턴입니다.
-            // 실제 패턴은 응답 형식에 맞게 조정해야 합니다.
+            // 예시 응답에서 "refactored code" 부분을 식별하는 패턴
             val refactoredCodeStartPattern = ":"
-            // refactored code의 끝을 나타내는 패턴을 찾기 위해 가장 마지막 '}'의 위치를 찾습니다.
+            // refactored code의 끝을 나타내는 패턴을: 가장 마지막 '}'의 위치
             val endIndex = response.lastIndexOf("}") + 1 // '}' 포함
 
-            // 시작 패턴을 기준으로 refactored code의 시작 위치를 찾습니다.
+            // 시작 패턴을 기준으로 refactored code의 시작 위치 찾기
             val startIndex = response.indexOf(refactoredCodeStartPattern)
 
             if (startIndex == -1 || endIndex == -1 || endIndex <= startIndex) {

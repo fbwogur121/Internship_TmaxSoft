@@ -1,4 +1,4 @@
-package com.Tmax.refactorCodeGpt.ui
+package com.Tmax.refactorCodeGpt.dialog.chatBotDialog
 
 import com.intellij.openapi.project.DumbAware
 import com.intellij.openapi.project.Project
