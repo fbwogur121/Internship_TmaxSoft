@@ -1,5 +1,5 @@
 package com.Tmax.refactorCodeGpt.dto.request
-import com.Tmax.refactorCodeGpt.dto.Message.JavaDocMessage
+import com.Tmax.refactorCodeGpt.dto.message.JavaDocMessage
 
 data class JavaDocRequest(
     val messages: List<JavaDocMessage>,

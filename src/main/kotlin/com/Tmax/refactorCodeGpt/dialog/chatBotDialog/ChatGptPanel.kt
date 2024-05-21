@@ -1,4 +1,4 @@
-package com.Tmax.refactorCodeGpt.ui
+package com.Tmax.refactorCodeGpt.dialog.chatBotDialog
 
 import com.Tmax.refactorCodeGpt.service.ChatBotService
 import com.intellij.ui.components.JBScrollPane

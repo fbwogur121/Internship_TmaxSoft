@@ -1,4 +1,4 @@
-package com.Tmax.refactorCodeGpt.dto.Message
+package com.Tmax.refactorCodeGpt.dto.message
 
 data class ChatBotMessage(
     val role: String,

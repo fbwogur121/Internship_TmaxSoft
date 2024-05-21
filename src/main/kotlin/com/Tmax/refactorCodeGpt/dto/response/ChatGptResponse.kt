@@ -1,6 +1,6 @@
 package com.Tmax.refactorCodeGpt.dto.response
 
-import com.Tmax.refactorCodeGpt.dto.Message.ChatBotMessage
+import com.Tmax.refactorCodeGpt.dto.message.ChatBotMessage
 import com.Tmax.refactorCodeGpt.dto.Refactored
 
 data class ChatGptResponse(
