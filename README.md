@@ -25,5 +25,7 @@ CodeSummary: LLM provides a code summary and explanation for the dragged code.
 
 
 version 0.0.1 : Released on June 4, 2024
-[Download the plugin](https://github.com/fbwogur121/Internship_TmaxSoft/blob/feature/11/TmaxGPT-0.0.1.zip)
+
+click >
+[Download the plugin](https://github.com/fbwogur121/Internship_TmaxSoft/raw/feature/11/TmaxGPT-0.0.1.zip)
 <!-- Plugin description end -->
