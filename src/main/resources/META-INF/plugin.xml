@@ -56,6 +56,13 @@
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt G" replace-all="true"/>
         </action>
+        <action id="CodeSummaryAction"
+                class="com.Tmax.tmaxPlugin.action.CodeSummaryAction"
+                text="Generate code summary"
+                description="Generate Summary by selected Code">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt S" replace-all="true"/>
+        </action>
     </actions>
 
 </idea-plugin>
