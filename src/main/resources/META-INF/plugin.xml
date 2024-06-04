@@ -1,7 +1,7 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>Tmax.refactorCodeGpt</id>
-    <name>refactorCodeGpt</name>
+    <name>TmaxGpt</name>
     <vendor
         url="https://github.com/fbwogur121/Internship_TamxSoft"
         email="fbwogur121@naver.com">
@@ -9,7 +9,7 @@
     </vendor>
 
     <description>
-        <![CDATA[**refactor selected code using ChatGPT**.
+        <![CDATA[**generate selected code using LLM models**.
         ]]>
     </description>
 
@@ -48,6 +48,20 @@
                 description="Generate javadoc comments for selected code">
             <add-to-group group-id="GenerateGroup" anchor="first"/>
             <keyboard-shortcut keymap="$default" first-keystroke="alt J" replace-all="true"/>
+        </action>
+        <action id="GenerateCodeAction"
+                class="com.Tmax.tmaxPlugin.action.GenerateCodeAction"
+                text="generate Code by annotation"
+                description="Generate code by selected annotation">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt G" replace-all="true"/>
+        </action>
+        <action id="CodeSummaryAction"
+                class="com.Tmax.tmaxPlugin.action.CodeSummaryAction"
+                text="Generate code summary"
+                description="Generate Summary by selected Code">
+            <add-to-group group-id="GenerateGroup" anchor="first"/>
+            <keyboard-shortcut keymap="$default" first-keystroke="alt S" replace-all="true"/>
         </action>
     </actions>
 
