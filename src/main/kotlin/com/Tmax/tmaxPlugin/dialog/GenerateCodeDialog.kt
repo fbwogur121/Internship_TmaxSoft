@@ -59,7 +59,7 @@ class GenerateCodeDialog(
     override fun createCenterPanel(): JComponent {
         val panel = JPanel(BorderLayout())
 
-        val originalCodeLabel = JBLabel("Original code:")
+        val originalCodeLabel = JBLabel("Requested in annotation:")
         val refactoredCodeLabel = JBLabel("Generated Code by selected annotation:")
 
         originalCodeLabel.border = BorderFactory.createEmptyBorder(0, 10, 10, 0)

@@ -9,28 +9,75 @@ data class GenerateCodeRequest(
             JavaDocRequest(messages = listOf(makePrompt(fileExtension, code)))
 
         fun cleanUpResponse(response: String): String {
-            // 응답 문자열에서 JavaDoc 주석과 코드 이후의 불필요한 문자열을 제거합니다.
-            // 예시로, 마지막에 나타나는 특정 패턴("}") 이후의 내용을 제거합니다.
-            val lastIndex = response.lastIndexOf("}")
-            return if (lastIndex != -1) {
-                response.substring(0, lastIndex + 1)
-            } else {
-                response // 마지막 "}"를 찾지 못한 경우, 응답을 그대로 반환
+            val refactoredCodeStartPattern = ":"
+            val endIndex = response.lastIndexOf("}") + 1 // '}' 포함
+
+            val startIndex = response.indexOf(refactoredCodeStartPattern)
+
+            if (startIndex == -1 || endIndex == -1 || endIndex <= startIndex) {
+                return response.lines().joinToString("\n") { "// $it" }
             }
+
+            // refactored code 이전 부분 주석 처리
+            val beforeRefactored = response.substring(0, startIndex).lines().joinToString("\n") { "// $it" }
+            // refactored code 부분
+            val refactoredCode = response.substring(startIndex, endIndex)
+            // refactored code 이후 부분 주석 처리
+            val afterRefactored = if (endIndex < response.length) response.substring(endIndex).lines().joinToString("\n") { "// $it" } else ""
+
+            return beforeRefactored + refactoredCode + afterRefactored
         }
 
         private fun makePrompt(fileExtension: String, code: String): JavaDocMessage =
             JavaDocMessage(content = """
                 [8]{"role": "system", "content": "What is my role?"},
-                [7]{"role": "user", "content": "Your role is to generate code for the given code without altering the code itself. Please provide detailed and comprehensive documentation that describes the purpose and functionality of the code. Include descriptions for any parameters, return values, and exceptions. After generating the JavaDoc comments, return the comments followed by the original code."},
+                [7]{"role": "user", "content": "Your role is to take a sentence with comments and generate code based on the description of the sentence. However, when answering, please do not provide any explanation other than the code. Do not create any role and content. Please just summarize the key points and answer me. Just print out the necessary information briefly. The questions are based on the programming language. When you reply, you can't print natural languages . Don't repeat the requested question in the answer. You must change the code. Never print the same code, Answer only once. Once you finish applying the information of last content, do nothing."},
                 [6]{"role": "system", "content": "What language will I be dealing with?"},
-                [5]{"role": "user", "content": "You are going to deal with $fileExtension."},
-                [4]{"role": "system", "content": "Okey, what's my job?"},
-                [3]{"role": "user", "content": "Please generate JavaDoc comments for the following code and return the comments followed by the original code:
+                [5]{"role": "user", "content": "You are going to deal with java"},
+                [4]{"role": "system", "content": "Okey what's my job?"},
+                [3]{"role": "user", "content": "please generate a java code to find the number of prime numbers when given numbers from 1 to n."},
+                [2]{"role": "system", "content":"
+                Here is the generated code
+                after :
+                public class PrimeCounter {
+                    public static int countPrimes(int n) {
+                        if (n < 2) return 0;
+
+                        boolean[] isPrime = new boolean[n + 1];
+                        for (int i = 2; i <= n; i++) {
+                            isPrime[i] = true;
+                        }
+
+                        for (int i = 2; i * i <= n; i++) {
+                            if (isPrime[i]) {
+                                for (int j = i * i; j <= n; j += i) {
+                                    isPrime[j] = false;
+                                }
+                            }
+                        }
+
+                        int count = 0;
+                        for (int i = 2; i <= n; i++) {
+                            if (isPrime[i]) {
+                                count++;
+                            }
+                        }
+
+                        return count;
+                    }
+
+                    public static void main(String[] args) {
+                        int n = 100;
+                        System.out.println(countPrimes(n));
+                    }
+                }
+                "},
+                [1]{"role": "user", "content": "please generate Java code efficiently based on the given sentence.:
                 $code
                 "},
-                [2]{"role": "system", "content":"Your JavaDoc should start with /** and end with */. Remember to return the original code unmodified after the JavaDoc comments."},
-                [1]{"role": "user", "content": "Remember to describe all aspects of the code, including its overall purpose, parameters, return values, and any thrown exceptions. Be as descriptive and precise as possible."}
+                [0]{"role": "system", "content":"
+                Here is the generated code
+                after:
                 """.trimIndent())
 
     }
