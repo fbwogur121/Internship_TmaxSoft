@@ -17,7 +17,7 @@ import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBLoadingPanel
 import com.intellij.ui.components.JBScrollPane
 import com.Tmax.tmaxPlugin.dto.Refactored
-import com.Tmax.tmaxPlugin.service.GenerateCodeService
+import com.Tmax.tmaxPlugin.service.CodeSummaryService
 import java.awt.BorderLayout
 import javax.swing.Action
 import javax.swing.BorderFactory
@@ -27,7 +27,7 @@ import javax.swing.JPanel
 import javax.swing.JSplitPane
 import javax.swing.SwingUtilities
 
-class GenerateCodeDialog(
+class CodeSummaryDialog(
     private val editor: Editor,
     private val project: Project,
     private val selectedCode: String
@@ -39,7 +39,7 @@ class GenerateCodeDialog(
         editorFactory.createViewer(editorFactory.createDocument(selectedCode.trimIndent()), project) as EditorEx
     private val refactoredCodeEditor: EditorEx =
         editorFactory.createEditor(editorFactory.createDocument(""), project) as EditorEx
-    private val GenerateCodeService = GenerateCodeService()
+    private val codeSummaryService = CodeSummaryService()
     private val fileExtension = FileDocumentManager.getInstance().getFile(editor.document)?.extension ?: "txt"
 
     val onApply = { refactoredCode: String ->
@@ -47,7 +47,7 @@ class GenerateCodeDialog(
     }
 
     init {
-        title = "Generate Code"
+        title = "CodeSummary"
         isResizable = true
         initEditors()
         init()
@@ -59,8 +59,8 @@ class GenerateCodeDialog(
     override fun createCenterPanel(): JComponent {
         val panel = JPanel(BorderLayout())
 
-        val originalCodeLabel = JBLabel("Selected annotation:")
-        val refactoredCodeLabel = JBLabel("Generated Code by selected annotation:")
+        val originalCodeLabel = JBLabel("Selected code:")
+        val refactoredCodeLabel = JBLabel("CodeSummary about selected code:")
 
         originalCodeLabel.border = BorderFactory.createEmptyBorder(0, 10, 10, 0)
         refactoredCodeLabel.border = BorderFactory.createEmptyBorder(0, 10, 10, 0)
@@ -111,7 +111,7 @@ class GenerateCodeDialog(
     override fun show() {
         Thread {
             runCatching {
-                GenerateCodeService.generateCode(fileExtension, selectedCode)
+                codeSummaryService.generateSummary(fileExtension, selectedCode)
             }.fold(
                 onSuccess = { refactored ->
                     SwingUtilities.invokeLater {
@@ -123,7 +123,7 @@ class GenerateCodeDialog(
                     SwingUtilities.invokeLater {
                         Messages.showErrorDialog(
                             project,
-                            "Failed to generate Code: ${exception.message}",
+                            "Failed to generate codeSummary: ${exception.message}",
                             "Generating Error"
                         )
                         setLoading(false)
