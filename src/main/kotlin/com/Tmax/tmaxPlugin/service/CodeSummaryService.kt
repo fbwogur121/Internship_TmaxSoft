@@ -32,7 +32,7 @@ class CodeSummaryService {
             val json = JSONObject()
             json.put("model", "mistralai/Mixtral-8x7B-Instruct-v0.1")
             json.put("prompt", CodeSummaryRequest.of(fileExtension, code).messages.first().content)
-            json.put("max_new_token", 300)
+            json.put("max_new_token", 200)
             val body = json.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
             val request = Request.Builder()
                 .url("http://192.168.115.38:5009/generate-javadoc")
@@ -52,8 +52,7 @@ class CodeSummaryService {
                         // 성공 응답 처리
                         val resultObject = jsonResponse.getJSONObject("result")
                         val outputText = resultObject.getString("output_text") // 예시로 'output_text'를 추출한다고 가정
-                        val cleanedOutput = CodeSummaryRequest.cleanUpResponse(outputText)
-                        cleanedOutput
+                        outputText
                     } else {
                         // 실패 응답 처리
                         throw ChatGptFetchFailureException("Server returned failure response: ${jsonResponse.getString("result")}")
