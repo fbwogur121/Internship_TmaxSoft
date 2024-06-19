@@ -4,7 +4,7 @@
 
 ## [Unreleased]
 
-## [0.0.2] - 2024-06-04
+## [0.0.2] - 2024-06-21
 
 ### Changed
 
@@ -16,6 +16,6 @@
 - Resolved suspending UI issue when requesting ChatGPT API.
 
 
-## [0.0.1] - 2024-06-04
+## [0.0.1] - 2024-06-21
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
