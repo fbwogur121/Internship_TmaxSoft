@@ -1,9 +1,11 @@
 
 <!-- Plugin description -->
+## ✨Description
 TmaxGPT
 IntelliJ-based plugin to refactor selected code using LLM models.
 This intelliJ plugin uses the tuned mistralai/Mixtral-8x7B-Instruct-v0.1 model.
 
+## ✨Usage
 The following five features are available:
 - Chatbot(alt+C)
 - RefactorGPT(alt+R)
@@ -29,5 +31,16 @@ To apply it to your project, please follow the steps below:
 - Select the downloaded .zip file
 - restart IntelliJ
 
-version 0.0.1 : Released on June 4, 2024
+## ✨Structure
+```
+
+```
+
+## ✨Reference
+- [Tmaxsoft 2024-1 Internship](https://team-keu0abwyhwvb.atlassian.net/wiki/spaces/SD/overview)
+- [IntelliJ TmaxPlugin 인수인계서_류재혁](https://team-keu0abwyhwvb.atlassian.net/wiki/spaces/SD/pages/28835965/IntelliJ+plugin)
+- [GitLab](https://team-keu0abwyhwvb.atlassian.net/wiki/spaces/SD/pages/28835965/IntelliJ+plugin)
+
+## Version
+version 0.0.1 : Released on June 21, 2024
 <!-- Plugin description end -->
